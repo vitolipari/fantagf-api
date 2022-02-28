@@ -1,0 +1,17 @@
+.DS_Store
+.idea
+.idea/
+.idea/*
+node_modules
+node_modules/
+node_modules/*
+package-lock.json
+*.lock
+vendor
+*.log
+build
+build/
+build/*
+test/*
+docs/*
+.history

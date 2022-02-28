@@ -1,0 +1,19 @@
+#! /usr/bin/env bash
+
+##################	reset	##################
+#
+# author: Vito Lipari
+# mail: vitolipari1981@gmail.com
+# version: 1.0.0
+# modified: 2021.12.07
+# date format: yyyy.mm.dd
+#
+#
+
+cd ../../app/
+
+# react-scripts build && cp -r ./build/* ../mobile-agent-logs-portal-access-webserver/pages/access/
+npm run build
+cp -r ./build/* ../server/app/pages/access/
+cd ../server/app
+

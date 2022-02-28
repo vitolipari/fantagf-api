@@ -1,0 +1,42 @@
+{
+  "name": "portal-access-webserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "serve": "cross-env nodemon --trace-warnings --experimental-json-modules ./index.js"
+  },
+  "engines": {
+    "node": "12"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "4.17.1",
+    "node-fetch": "^2.6.1",
+    "cross-env": "7.0.3",
+    "nodemon": "2.0.4",
+    "npm": "^6.14.7",
+    "qrcode": "1.4.4",
+    "socket.io": "3.1.0",
+    "jsonwebtoken": "8.5.1",
+    "mysql": "2.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "2.0.4",
+    "@liparistudios/js-utils": "file:/Users/vitolipari/job/LipariStudios/packages-libraries-frameworks/js/@liparistudios/js-utils",
+    "@liparistudios/node-safe-connection": "file:/Users/vitolipari/job/LipariStudios/packages-libraries-frameworks/js/@liparistudios/safe/secure-connection/node-js"
+  },
+  "private": true,
+  "type": "module",
+  "nodemonConfig": {
+    "ignore": [
+      "test/*",
+      "docs/*"
+    ],
+    "delay": "2500"
+  },
+  "author": "liparistudios.io",
+  "license": "ISC"
+}
