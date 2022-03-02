@@ -138,10 +138,10 @@ export const getSessionKey = request => {
 export const getCookieData = request => {
 	let cookieData = null;
 	
-	showlog("controllo cookie alla request");
+	// showlog("controllo cookie alla request");
 	// showlog(request);
-	showlog(request.headers);
-	showlog(request.headers.cookie);
+	// showlog(request.headers);
+	// showlog(request.headers.cookie);
 
 	if( !!request.headers.cookie ) {
 		cookieData =

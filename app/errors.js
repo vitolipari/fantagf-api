@@ -1,21 +1,35 @@
 import {STATUS_FAIL} from "./models/constants.js";
+import {showlog} from "@liparistudios/js-utils";
 
 export const universalErrorHandler = (err, request, response, nextAction) => {
-
-	console.log("universalErrorHandler");
-	console.log( err );
-
-	response
-		.status( err.code || 500 )
-		.send(
-			Object.assign(
-			{
-						status: "fail"
-				},
-				err
+	
+	showlog("universalErrorHandler");
+	// showlog("request");
+	// showlog(request);
+	
+	showlog("method");
+	showlog(request.method);
+	
+	showlog( err );
+	
+	if( request.method === "GET" ) {
+		showlog("not found");
+		nextAction();
+	}
+	else {
+		response
+			.status( err.code || 500 )
+			.send(
+				Object.assign(
+				{
+							status: "fail"
+					},
+					err
+				)
 			)
-		)
-	;
+		;
+	}
+
 
 };
 
@@ -34,8 +48,17 @@ export const notFound = (request, response) => {
 
 export const incomingRequestErrorHandler = (err, request, response, nextAction) => {
 
-	console.log("incomingRequestErrorHandler");
-	console.log(err);
+	showlog("incomingRequestErrorHandler");
+	showlog("request");
+	showlog(request);
+	
+	showlog("method");
+	showlog(request.method);
+	
+	showlog("headers");
+	showlog(request.headers);
+	
+	showlog(err);
 
 	let errObjDTO = {
 		status: STATUS_FAIL,

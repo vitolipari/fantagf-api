@@ -13,7 +13,8 @@ import { checkAuthRequest, safeData } from "@liparistudios/node-safe-connection"
 import { createServer } from 'http';
 import path from "path";
 import {getCookieData, setAuthSession} from './services/index.js';
-import {getPlatformData, getPlatforms, setAuthPlatform} from "./controllers/index.js";
+import {checkAuthorizedRequest} from "./controllers/index.js";
+// import {getPlatformData, getPlatforms, setAuthPlatform} from "./controllers/index.js";
 
 const whitelist = [
 	"http://localhost"
@@ -61,15 +62,16 @@ app
 	// .use( shimRequest )
 
 
-	// universalErrorHandler
-	// .use( universalErrorHandler )
-
 	// inline middleware
 	.use( (request, response, nextAction) => {
 		if(
 			request.path.indexOf("static") === -1
 			&& request.path.indexOf("manifest") === -1
 			&& request.path.indexOf("favicon") === -1
+			&& request.path.indexOf(".png") === -1
+			&& request.path.indexOf(".jpg") === -1
+			&& request.path.indexOf(".css") === -1
+			&& request.path.indexOf(".js") === -1
 		) {
 			showlog("\nprocesso le request "+ request.method +" "+ request.path);
 			showlog( "headers" );
@@ -91,65 +93,36 @@ app.set('strict routing', true);
 const server = createServer(app);
 
 
-// access frontend
-app.get('/', (request, response, next) => {
+app.get('/**', (request, response, next) => {
+	checkAuthorizedRequest( request )
+		.then( isAuthorizedRequest => {
+			
+			if( !!isAuthorizedRequest ) {
+				// response.cookie( "sessionid", result.session.id );
+				showlog("pagina web del portale");
+				response.sendFile( request.path, { root: "pages/portal" } );
+			}
+			else {
+				showlog("static resource in access "+ request.path);
+				response.sendFile( request.path, { root: "pages/access" } );
+			}
 
-	// controllo cookie
-	showlog("portal webapi-server");
-
-	showlog("cookies");
-	showlog(request.headers.cookie);
-
-	let cookieData = getCookieData( request );
-
-	let isToAuthize = false;
-	if( !cookieData || JSON.stringify( cookieData ) === "{}" ) {
-		//
-	}
-	else {
-		// cookie presente
-		isToAuthize = true;
-	}
-
-	showlog("is to auth? "+ isToAuthize );
-
-	if( !!isToAuthize ) {
-		//
-	}
-	else {
-
-		// .catch(e => {
-		// 	showlog("errore al set session");
-		// 	showlog( e );
-		// 	response.sendFile(path.join( path.resolve(path.dirname('.') ) ) +"/pages/error.html");
-		// })
-
-
-
-	}
-
-
-});
-app.use( express.static( path.join( path.resolve(path.dirname('')), '/pages/portal') ) );
-
-app.get('/logo.png', (request, response) => {
-	response.sendFile( 'canino-srl-logo@350.png', { root: "pages/imgs" } );
+		})
+		.catch( e => {
+			showlog("errore");
+			showlog(e);
+		})
+	
 });
 
+
+app.use( universalErrorHandler );
 
 app.all('*', notFound);
 
-
-/**
- * Error handler
- * response in json format
- */
-app.use( universalErrorHandler );
-
-
 server.listen( process.env.PORT, () => {
 	console.clear();
-	showlog("server portal access webserver partito alla porta "+ process.env.PORT);
+	showlog("server partito alla porta "+ process.env.PORT);
 	showlog("ready");
 });
 
