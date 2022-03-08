@@ -1,5 +1,7 @@
 import dotenv from 'dotenv'
-dotenv.config({ path: './.env' })
+dotenv.config({ path: './.env' });
+
+import fs from "fs";
 
 import express from 'express';
 import cors from 'cors';
@@ -10,7 +12,8 @@ import { incomingRequestErrorHandler, notFound, universalErrorHandler } from "./
 import { showlog } from "@liparistudios/js-utils";
 import { checkAuthRequest, safeData } from "@liparistudios/node-safe-connection";
 
-import { createServer } from 'http';
+// import { createServer } from 'http';
+import { createServer } from 'https';
 import path from "path";
 import {getCookieData, setAuthSession} from './services/index.js';
 import {checkAuthorizedRequest} from "./controllers/index.js";
@@ -24,6 +27,10 @@ const whitelist = [
 	, "http://localhost:3201"
 	, "undefined"	// <----------------- per postman
 ];
+
+
+const key = fs.readFileSync('./keys-and-certs/key.pem');
+const cert = fs.readFileSync('./keys-and-certs/cert.pem');
 
 
 
@@ -90,7 +97,7 @@ app
 
 
 app.set('strict routing', true);
-const server = createServer(app);
+const server = createServer({key: key, cert: cert }, app);
 
 
 app.get('/**', (request, response, next) => {
