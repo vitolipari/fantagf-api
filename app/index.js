@@ -21,6 +21,9 @@ import {checkAuthorizedRequest} from "./controllers/index.js";
 
 const whitelist = [
 	"http://localhost"
+	, "http://localhost:9200"
+	, "https://fantagf.com:9200"
+	, "http://fantagf.com:9200"
 	, "http://localhost:3000"
 	, "http://localhost:3001"
 	, "http://localhost:3200"
@@ -121,6 +124,16 @@ app.get('/**', (request, response, next) => {
 		})
 	
 });
+
+
+app.post("/user-fingerprint", (request, response, next) => {
+	showlog("post user fingerprint");
+	showlog( request.body );
+	
+	// TODO controllare presenza utenza
+	
+	response.send({status: "succes"});
+})
 
 
 app.use( universalErrorHandler );
