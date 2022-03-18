@@ -132,7 +132,7 @@ app.post("/user-fingerprint", (request, response, next) => {
 	
 	// TODO controllare presenza utenza
 	
-	response.send({status: "succes"});
+	response.send({status: "success"});
 })
 
 
