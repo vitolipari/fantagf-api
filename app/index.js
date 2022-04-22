@@ -10,7 +10,7 @@ import url from "url";
 
 import { incomingRequestErrorHandler, notFound, universalErrorHandler } from "./errors.js";
 import { showlog } from "@liparistudios/js-utils";
-import { checkAuthRequest, safeData } from "@liparistudios/node-safe-connection";
+// import { checkAuthRequest, safeData } from "@liparistudios/node-safe-connection";
 
 // import { createServer } from 'http';
 import { createServer } from 'https';
@@ -100,13 +100,14 @@ app
 
 
 app.set('strict routing', true);
-const server = createServer({key: key, cert: cert }, app);
+// const server = createServer({key: key, cert: cert }, app);
+const server = createServer(app);
 
 
 app.get('/**', (request, response, next) => {
 	checkAuthorizedRequest( request )
 		.then( isAuthorizedRequest => {
-			
+
 			if( !!isAuthorizedRequest ) {
 				// response.cookie( "sessionid", result.session.id );
 				showlog("pagina web del portale");
@@ -122,16 +123,16 @@ app.get('/**', (request, response, next) => {
 			showlog("errore");
 			showlog(e);
 		})
-	
+
 });
 
 
 app.post("/user-fingerprint", (request, response, next) => {
 	showlog("post user fingerprint");
 	showlog( request.body );
-	
+
 	// TODO controllare presenza utenza
-	
+
 	response.send({status: "success"});
 })
 

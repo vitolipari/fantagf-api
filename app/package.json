@@ -25,8 +25,7 @@
   },
   "devDependencies": {
     "nodemon": "2.0.4",
-    "@liparistudios/js-utils": "file:/Users/vitolipari/job/LipariStudios/packages-libraries-frameworks/js/@liparistudios/js-utils",
-    "@liparistudios/node-safe-connection": "file:/Users/vitolipari/job/LipariStudios/packages-libraries-frameworks/js/@liparistudios/safe/secure-connection/node-js"
+    "@liparistudios/js-utils": "git+https://github.com/vitolipari/js-utils.git"
   },
   "private": true,
   "type": "module",
